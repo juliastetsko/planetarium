@@ -46,7 +46,7 @@ class AstronomyShowListSerializer(AstronomyShowSerializer):
 
 
 class AstronomyShowDetailSerializer(AstronomyShowSerializer):
-    show_themes = ShowTheme(many=True, read_only=True)
+    show_themes = ShowThemeSerializer(many=True, read_only=True)
 
     class Meta:
         model = AstronomyShow
@@ -123,7 +123,7 @@ class TicketSeatsSerializer(TicketSerializer):
 
 class ShowSessionDetailSerializer(ShowSessionSerializer):
     astronomy_show = AstronomyShowListSerializer(many=False, read_only=True)
-    planetarium_dome = PlanetariumDome(many=False, read_only=True)
+    planetarium_dome = PlanetariumDomeSerializer(many=False, read_only=True)
     taken_places = TicketSeatsSerializer(
         source="tickets", many=True, read_only=True
     )
