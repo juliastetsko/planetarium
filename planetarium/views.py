@@ -62,9 +62,9 @@ class AstronomyShowViewSet(
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
     @staticmethod
-    def _params_to_ints(qs):
-        """Converts a list of string IDs to a list of integers"""
-        return [int(str_id) for str_id in qs.split(",")]
+    def _params_to_strs(qs):
+        """Converts a list of string to a list of strings"""
+        return [param.strip() for param in qs.split(",")]
 
     def get_queryset(self):
         """Retrieve the astronomy show with filters"""
@@ -77,7 +77,8 @@ class AstronomyShowViewSet(
             queryset = queryset.filter(title__icontains=title)
 
         if show_themes:
-            queryset = queryset.filter(show_themes__name__icontains=show_themes)
+            show_theme_names = self._params_to_strs(show_themes)
+            queryset = queryset.filter(show_themes__name__in=show_theme_names)
 
         return queryset.distinct()
 
@@ -128,7 +129,7 @@ class ShowSessionViewSet(viewsets.ModelViewSet):
         date = self.request.query_params.get("date")
         astronomy_show_id_str = self.request.query_params.get("astronomy_show")
 
-        queryset = self.queryset
+        queryset = super().get_queryset()
 
         if date:
             date = datetime.strptime(date, "%Y-%m-%d").date()
