@@ -1,6 +1,8 @@
 from datetime import datetime
 
 from django.db.models import F, Count
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
@@ -110,6 +112,23 @@ class AstronomyShowViewSet(
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "title",
+                type=str,
+                description="Filter by title",
+            ),
+            OpenApiParameter(
+                "show_themes",
+                type=str,
+                description="Filter by show_themes"
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
 
 class ShowSessionViewSet(viewsets.ModelViewSet):
     queryset = (
@@ -148,6 +167,23 @@ class ShowSessionViewSet(viewsets.ModelViewSet):
             return ShowSessionDetailSerializer
 
         return ShowSessionSerializer
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "date",
+                type=OpenApiTypes.DATE,
+                description="Filter by date",
+            ),
+            OpenApiParameter(
+                "astronomy_show_",
+                type={"type": "list", "items": {"type": "number"}},
+                description="Filter by astronomy show id"
+            )
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class ReservationPagination(PageNumberPagination):
