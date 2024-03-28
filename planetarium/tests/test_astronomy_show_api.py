@@ -9,7 +9,10 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from planetarium.models import AstronomyShow, ShowTheme, PlanetariumDome, ShowSession
-from planetarium.serializers import AstronomyShowListSerializer, AstronomyShowDetailSerializer
+from planetarium.serializers import (
+    AstronomyShowListSerializer,
+    AstronomyShowDetailSerializer,
+)
 
 ASTRONOMY_SHOW_URL = reverse("planetarium:astronomyshow-list")
 SHOW_SESSION_URL = reverse("planetarium:showsession-list")
@@ -163,8 +166,7 @@ class AuthenticatedAstronomyShowApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user(
-            email="julia@test.test",
-            password="difficult_password12345"
+            email="julia@test.test", password="difficult_password12345"
         )
         self.client.force_authenticate(self.user)
 
@@ -185,9 +187,7 @@ class AuthenticatedAstronomyShowApiTests(TestCase):
         astronomy_show_1 = sample_astronomy_show(title="Stars")
         astronomy_show_2 = sample_astronomy_show(title="Planets")
 
-        result = self.client.get(
-            ASTRONOMY_SHOW_URL, {"title": "Stars"}
-        )
+        result = self.client.get(ASTRONOMY_SHOW_URL, {"title": "Stars"})
 
         serializer_1 = AstronomyShowListSerializer(astronomy_show_1)
         serializer_2 = AstronomyShowListSerializer(astronomy_show_2)
@@ -205,11 +205,11 @@ class AuthenticatedAstronomyShowApiTests(TestCase):
         astronomy_show_1.show_themes.add(show_themes_1)
         astronomy_show_2.show_themes.add(show_themes_2)
 
-        astronomy_show_3 = sample_astronomy_show(title="Astronomy show without show theme")
-
-        result = self.client.get(
-            ASTRONOMY_SHOW_URL, {"show_themes": "Stars, Planets"}
+        astronomy_show_3 = sample_astronomy_show(
+            title="Astronomy show without show theme"
         )
+
+        result = self.client.get(ASTRONOMY_SHOW_URL, {"show_themes": "Stars, Planets"})
 
         serializer1 = AstronomyShowListSerializer(astronomy_show_1)
         serializer2 = AstronomyShowListSerializer(astronomy_show_2)
@@ -251,9 +251,7 @@ class AdminAstronomyShowTests(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user(
-            email="superadmin@test.test",
-            password="super_password54321",
-            is_staff=True
+            email="superadmin@test.test", password="super_password54321", is_staff=True
         )
         self.client.force_authenticate(self.user)
 

@@ -15,7 +15,7 @@ from planetarium.models import (
     PlanetariumDome,
     AstronomyShow,
     ShowSession,
-    Reservation
+    Reservation,
 )
 from planetarium.permissions import IsAdminOrIfAuthenticatedReadOnly
 from planetarium.serializers import (
@@ -29,7 +29,7 @@ from planetarium.serializers import (
     ShowSessionListSerializer,
     ShowSessionDetailSerializer,
     ReservationSerializer,
-    ReservationListSerializer
+    ReservationListSerializer,
 )
 
 
@@ -120,9 +120,7 @@ class AstronomyShowViewSet(
                 description="Filter by title",
             ),
             OpenApiParameter(
-                "show_themes",
-                type=str,
-                description="Filter by show_themes"
+                "show_themes", type=str, description="Filter by show_themes"
             ),
         ]
     )
@@ -135,10 +133,10 @@ class ShowSessionViewSet(viewsets.ModelViewSet):
         ShowSession.objects.all()
         .select_related("astronomy_show", "planetarium_dome")
         .annotate(
-            tickets_available=(
-                    F("planetarium_dome__rows") * F("planetarium_dome__seats_in_row")
-                    - Count("tickets")
-            )
+            tickets_available=(F("planetarium_dome__rows")
+                               * F("planetarium_dome__seats_in_row")
+                               - Count("tickets")
+                               )
         )
     )
     serializer_class = ShowSessionSerializer
@@ -155,7 +153,9 @@ class ShowSessionViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(show_time__date=date)
 
         if astronomy_show_id_str:
-            queryset = queryset.filter(astronomy_show_id=int(astronomy_show_id_str))
+            queryset = queryset.filter(
+                astronomy_show_id=int(astronomy_show_id_str)
+            )
 
         return queryset
 
@@ -178,8 +178,8 @@ class ShowSessionViewSet(viewsets.ModelViewSet):
             OpenApiParameter(
                 "astronomy_show_",
                 type={"type": "list", "items": {"type": "number"}},
-                description="Filter by astronomy show id"
-            )
+                description="Filter by astronomy show id",
+            ),
         ]
     )
     def list(self, request, *args, **kwargs):
@@ -197,7 +197,8 @@ class ReservationViewSet(
     GenericViewSet,
 ):
     queryset = Reservation.objects.prefetch_related(
-        "tickets__show_session__astronomy_show", "tickets__show_session__planetarium_dome"
+        "tickets__show_session__astronomy_show",
+        "tickets__show_session__planetarium_dome",
     )
     serializer_class = ReservationSerializer
     pagination_class = ReservationPagination

@@ -15,7 +15,7 @@ For beginning you have to install Python3+, PostgresSQL and create db
 
 In terminal write down following command:
 ```shell
-git clone https://github.com/juliastetsko/planetarium
+git clone https://github.com/juliastetsko/planetarium.git
 cd cinema_API
 python -m venv venv 
 source venv/bin/activate 
@@ -66,7 +66,7 @@ and the differentiation of users based on their permissions or rights.
 
 ## Database Structure
 
-![img.png](img.png)
+![db_structure.png](db_structure.png)
 ## Home page
-![img_1.png](img_1.png)
+![demo_home.png](demo_home.png)
 

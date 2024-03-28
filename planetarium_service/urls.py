@@ -26,7 +26,10 @@ from drf_spectacular.views import (
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/planetarium/", include("planetarium.urls", namespace="planetarium")),
+    path(
+        "api/planetarium/",
+        include("planetarium.urls", namespace="planetarium")
+    ),
     path("api/user/", include("user.urls", namespace="user")),
     path("api/doc/", SpectacularAPIView.as_view(), name="schema"),
     path(
