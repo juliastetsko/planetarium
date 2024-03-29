@@ -2,12 +2,6 @@
 
 API service for Planetarium management written on DRF
 
-## Check it out!
-
-For login use following login and password:
-* Email: `admin@example.com`
-* Password: `12345`
-
 
 ## Installation using GitHub
 
@@ -20,11 +14,6 @@ cd cinema_API
 python -m venv venv 
 source venv/bin/activate 
 pip install -r requirements.txt
-export DB_HOST=<your db hostname>
-export DB_NAME=<your db name>
-export DB_USER=<your db username>
-export DB_PASSWORD=<your db user password>
-export SECRET_KEY=<your secret key>
 python manage.py migrate
 python manage.py runserver
 
