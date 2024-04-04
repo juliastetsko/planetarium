@@ -9,7 +9,8 @@ class Reservation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="reservations"
     )
 
     def __str__(self):
@@ -45,7 +46,11 @@ class ShowTheme(models.Model):
 class AstronomyShow(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    show_themes = models.ManyToManyField(ShowTheme, blank=True)
+    show_themes = models.ManyToManyField(
+        ShowTheme,
+        blank=True,
+        related_name="astronomy_shows"
+    )
     image = models.ImageField(
         null=True,
         upload_to=astronomy_show_image_file_path
@@ -59,7 +64,11 @@ class AstronomyShow(models.Model):
 
 
 class ShowSession(models.Model):
-    astronomy_show = models.ForeignKey(AstronomyShow, on_delete=models.CASCADE)
+    astronomy_show = models.ForeignKey(
+        AstronomyShow,
+        on_delete=models.CASCADE,
+        related_name="show_sessions"
+    )
     planetarium_dome = models.ForeignKey(
         PlanetariumDome,
         on_delete=models.CASCADE
@@ -95,10 +104,11 @@ class Ticket(models.Model):
             if not (1 <= ticket_attr_value <= count_attrs):
                 raise error_to_raise(
                     {
-                        ticket_attr_name: f"{ticket_attr_name} "
-                                          f"number must be in available range: "
-                                          f"(1, {planetarium_dome_attr_name}): "
-                                          f"(1, {count_attrs})"
+                        ticket_attr_name:
+                            f"{ticket_attr_name} "
+                            f"number must be in available range: "
+                            f"(1, {planetarium_dome_attr_name}): "
+                            f"(1, {count_attrs})"
                     }
                 )
 
