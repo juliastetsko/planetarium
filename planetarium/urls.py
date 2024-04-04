@@ -13,7 +13,7 @@ router = routers.DefaultRouter()
 router.register("show-themes", ShowThemeViewSet)
 router.register("planetarium-domes", PlanetariumDomeViewSet)
 router.register("astronomy-shows", AstronomyShowViewSet)
-router.register("show_sessions", ShowSessionViewSet)
+router.register("show-sessions", ShowSessionViewSet)
 router.register("reservations", ReservationViewSet)
 
 urlpatterns = [path("", include(router.urls))]
