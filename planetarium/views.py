@@ -16,6 +16,7 @@ from planetarium.models import (
     ShowSession,
     Reservation,
 )
+from planetarium.pagination import ReservationPagination
 from planetarium.serializers import (
     ShowThemeSerializer,
     PlanetariumDomeSerializer,
@@ -29,7 +30,6 @@ from planetarium.serializers import (
     ReservationSerializer,
     ReservationListSerializer,
 )
-from planetarium.utils import ReservationPagination
 
 
 class ShowThemeViewSet(

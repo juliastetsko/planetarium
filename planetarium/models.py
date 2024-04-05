@@ -71,7 +71,8 @@ class ShowSession(models.Model):
     )
     planetarium_dome = models.ForeignKey(
         PlanetariumDome,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="show_sessions"
     )
     show_time = models.DateTimeField()
 

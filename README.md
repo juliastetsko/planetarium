@@ -55,7 +55,7 @@ and the differentiation of users based on their permissions or rights.
 
 ## Database Structure
 
-![db_structure.png](db_structure.png)
+![db_structure.png](demo_images/db_structure.png)
 ## Home page
-![demo_home.png](demo_home.png)
+![demo_home.png](demo_images/demo_home.png)
 
